@@ -47,11 +47,11 @@ jobs:
             } else if (text.includes('important') || text.includes('high') || 
                        text.includes('blocking')) {
               priorityLabel = 'priority-high';
+            } else if (text.includes('medium') || text.includes('normal')) {
+              priorityLabel = 'priority-medium';
             } else if (text.includes('low') || text.includes('nice-to-have') || 
                        text.includes('minor')) {
               priorityLabel = 'priority-low';
-            } else if (text.includes('medium') || text.includes('normal')) {
-              priorityLabel = 'priority-medium';
             }
             
             labelsToAdd.push(priorityLabel);
@@ -162,8 +162,8 @@ jobs:
   auto-response:
     name: Auto-respond to Issues
     runs-on: ubuntu-latest
-    if: github.event.action == 'opened'
-    needs: [issue-triage, task-breakdown]
+    if: github.event.action == 'opened' && always()
+    needs: [issue-triage]
     permissions:
       issues: write
       contents: read
